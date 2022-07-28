@@ -7,56 +7,118 @@ import { CardComponent } from "../component/common/CardComponent";
 import InfoBarComponent from "../component/common/InfoBar";
 import characterSlice from "../component/store/character-slice";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../component/hook/redux-hooks";
 import { CharacterModel } from "../component/models/redux.models";
+//import { useLocalStorage } from "../component/hook/useLocalStorage";
 
 export default function Home() {
   const characterActions = characterSlice.actions;
-  const favorite = useAppSelector((state) => state.character.all_characters);
+  const favoriteRedux = useAppSelector(
+    (state) => state.character.all_characters
+  );
   const dispatch = useAppDispatch();
-  const [page, setPage] = useState(1);
-  console.log("favorites: ", favorite);
+  //const [favSavedStorage, setfavSavedStorage] = useLocalStorage("fav", []);
 
-  console.log("favorites: ", favorite.length);
+  const [temp, setTemp] = useState([]);
 
-  const mock = { id: 222, image: "ada", name: "asda", species: "asda" };
+  const [fav, setFav] = useState(true);
 
-  const mock2 = { id: 222, image: "ada", name: "asda", species: "asda" };
+  const [page, setPage] = useState(10);
 
-  if (favorite.length === 0) {
-  }
+  useEffect(() => {
+    if (favoriteRedux.length > 0) {
+      localStorage.setItem("fav", JSON.stringify(favoriteRedux));
+    }
 
-  const handleClick = () => {
-    dispatch(characterActions.deleteCharacter(mock2));
-  };
-
-  const handleClick2 = () => {
-    dispatch(characterActions.addCharacter(mock));
-    console.log(favorite);
-  };
+    console.log("Redux", favoriteRedux);
+    console.log("localStorage", JSON.parse(localStorage.getItem("fav")));
+  }, [favoriteRedux]);
 
   const { data } = useQuery(GET_CHARACTERS(page));
   if (!data) {
     return "loading";
   }
 
+  //   //send data of character to component card
   const viewCharacters = data.characters.results;
-  console.log(viewCharacters);
+
+  const handleClickDetails = () => {
+    console.log("CART Redux", favoriteRedux);
+    console.log("CART localstore", JSON.parse(localStorage.getItem("fav")));
+  };
+
+  const handleClickClean = () => {
+    localStorage.removeItem("fav");
+    dispatch(characterActions.cleanCharacter());
+  };
+
+  //ADD character selecter
+  const handleClickFav = (characterSelected: CharacterModel) => {
+    //Redux data
+    checkLocalStore(favoriteRedux);
+
+    dispatch(characterActions.addCharacter(characterSelected));
+  };
+
+  //DELETE character selecter
+  const handleClickDel = (characterSelected: CharacterModel) => {
+    checkLocalStore(favoriteRedux);
+
+    const foundFav = favoriteRedux.find(
+      (fav) => fav.id === characterSelected.id
+    );
+    if (foundFav) {
+      if (favoriteRedux.length === 1) {
+        localStorage.removeItem("fav");
+      }
+      //Redux data
+      dispatch(characterActions.deleteCharacter(characterSelected));
+    }
+  };
+
+  const checkLocalStore = (favoriteRedux: CharacterModel[]) => {
+    const checkLocalStorage = JSON.parse(localStorage.getItem("fav"));
+    if (favoriteRedux.length === 0) {
+      if (checkLocalStorage) {
+        if (checkLocalStorage.length > 0) {
+          pushToRedux(checkLocalStorage);
+        }
+      }
+    }
+  };
+
+  const pushToRedux = (dataArray: CharacterModel[]) => {
+    dataArray.map((data) => {
+      dispatch(characterActions.addCharacter(data));
+    });
+  };
 
   return (
     <div className={styles.container}>
       <main className={styles.main}>
         <h1 className={styles.title}>Ricky and Morty App!</h1>
-        <button onClick={handleClick}>TEST REDUX</button>
-        <button onClick={handleClick2}>TEST FAV</button>
+        <button onClick={handleClickDetails}>VER CART</button>
+        <button onClick={handleClickClean}>LIMPIAR TODO</button>
+
+        <div className="flex">
+          <button onClick={() => setFav(true)}>FAVORITOS</button>
+          <button onClick={() => setFav(false)}>DELETE</button>
+        </div>
+
         <InfoBarComponent />
 
         <div className={styles.grid}>
-          {viewCharacters.map((element: any, index: number) => {
+          {viewCharacters.map((character: any, index: number) => {
             return (
               <div key={index}>
-                <CardComponent character={element} />
+                <CardComponent
+                  character={character}
+                  handleClickFav={handleClickFav}
+                  handleClickDel={handleClickDel}
+                  handleClickDetails={handleClickDetails}
+                  fav={fav}
+                />
               </div>
             );
           })}
@@ -65,7 +127,7 @@ export default function Home() {
       <footer className={styles.footer}>
         <div className={styles.pagination}>
           <a href="#">&laquo;</a>
-          {viewCharacters.map((element: any, index: number) => {
+          {viewCharacters.map((element: CharacterModel, index: number) => {
             return (
               <a key={index + 1} href="#">
                 {" "}

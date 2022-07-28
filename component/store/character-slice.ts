@@ -11,8 +11,7 @@ const characterSlice = createSlice({
   initialState: initialCharacterState,
   reducers: {
     addCharacter(state, action: PayloadAction<CharacterModel>) {
-      state.all_characters.push(action.payload)
-     
+      state.all_characters.push(action.payload);
     },
     deleteCharacter(state, action: PayloadAction<CharacterModel>) {
       const foundFav = state.all_characters.find(
@@ -20,10 +19,12 @@ const characterSlice = createSlice({
       );
       if (foundFav) {
         state.all_characters.splice(
-          state.all_characters.indexOf(action.payload),
-          1
+          state.all_characters.indexOf(action.payload)
         );
       }
+    },
+    cleanCharacter(state) {
+      state.all_characters = [];
     },
   },
 });
