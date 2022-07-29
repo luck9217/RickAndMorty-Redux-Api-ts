@@ -14,15 +14,18 @@ const characterSlice = createSlice({
       state.all_characters.push(action.payload);
     },
     deleteCharacter(state, action: PayloadAction<CharacterModel>) {
-      const foundFav = state.all_characters.find(
-        (fav) => fav.id === action.payload.id
-      );
-      if (foundFav) {
-        state.all_characters.splice(
-          state.all_characters.indexOf(action.payload)
-        );
+      let indexTemp = -1;
+
+      state.all_characters.map((element, index) => {
+        if (element.id === action.payload.id) indexTemp = index;
+      });
+
+      if (indexTemp != -1) {
+        //clear data from state array
+        state.all_characters.splice(indexTemp, 1);
       }
     },
+
     cleanCharacter(state) {
       state.all_characters = [];
     },
