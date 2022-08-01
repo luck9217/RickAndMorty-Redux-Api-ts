@@ -1,144 +1,160 @@
 import Head from "next/head";
 import Image from "next/image";
 import styles from "../styles/Home.module.css";
-import { GET_CHARACTERS } from "../component/apollo/queries/characters";
-import { useQuery } from "@apollo/client";
+
 import { CardComponent } from "../component/common/CardComponent";
 import InfoBarComponent from "../component/common/InfoBar";
-import characterSlice from "../component/store/character-slice";
-
 import { useEffect, useState } from "react";
+
 import { useAppDispatch, useAppSelector } from "../component/hook/redux-hooks";
 import { CharacterModel } from "../component/models/redux.models";
-//import { useLocalStorage } from "../component/hook/useLocalStorage";
+import Link from "next/link";
+import { ConfigRedux } from "../component/common/handleFavorites";
+import EmptyFavorites from "../component/common/EmptyFavorite";
+import characterSlice from "../component/store/character-slice";
 
 export default function Home() {
+  const {
+    handleClickDetails,
+    handleClickClean,
+    handleClickFav,
+    handleClickDel,
+    checkLocalStore,
+  } = ConfigRedux();
+
   const characterActions = characterSlice.actions;
+
+  const dispatch = useAppDispatch();
+
+  //Return redux state
   const favoriteRedux = useAppSelector(
     (state) => state.character.all_characters
   );
-  const dispatch = useAppDispatch();
-  //const [favSavedStorage, setfavSavedStorage] = useLocalStorage("fav", []);
-
-  const [temp, setTemp] = useState([]);
 
   const [fav, setFav] = useState(true);
-
-  const [page, setPage] = useState(10);
+  const [viewCharacters, setViewCharacters] = useState(favoriteRedux);
+  const [page, setPage] = useState(0);
+  const [viewPage, setViewPage] = useState([]);
+  const [viewCard, setViewCard] = useState([]);
 
   useEffect(() => {
     if (favoriteRedux.length > 0) {
       localStorage.setItem("fav", JSON.stringify(favoriteRedux));
     }
 
-    console.log("Redux", favoriteRedux);
-    console.log("localStorage", JSON.parse(localStorage.getItem("fav")));
+    setViewCharacters(favoriteRedux);
   }, [favoriteRedux]);
 
-  const { data } = useQuery(GET_CHARACTERS(page));
-  if (!data) {
-    return "loading";
-  }
+  useEffect(() => {
+    listPages(viewCharacters);
+    console.log(viewPage);
+  }, [viewCharacters, page]);
 
-  //   //send data of character to component card
-  const viewCharacters = data.characters.results;
+  const listPages = (viewCharacters: CharacterModel[]) => {
+    let congifAmount = 10;
+    let totalLegth = viewCharacters.length;
+    let arrayTotal = [];
+    let pageTemp = 0;
+    let arrayNumber = 0;
 
-  const handleClickDetails = () => {
-    console.log("CART Redux", favoriteRedux);
-    console.log("CART localstore", JSON.parse(localStorage.getItem("fav")));
-  };
+    while (totalLegth > 0) {
+      let arrayPage = 0;
+      let tempRow = [];
 
-  const handleClickClean = () => {
-    localStorage.removeItem("fav");
-    dispatch(characterActions.cleanCharacter());
-  };
+      while (arrayPage < congifAmount && totalLegth > 0) {
+        tempRow[arrayPage] = viewCharacters[arrayNumber];
 
-  //ADD character selecter
-  const handleClickFav = (characterSelected: CharacterModel) => {
-    //Redux data
-    checkLocalStore(favoriteRedux);
-
-    dispatch(characterActions.addCharacter(characterSelected));
-  };
-
-  //DELETE character selecter
-  const handleClickDel = (characterSelected: CharacterModel) => {
-    checkLocalStore(favoriteRedux);
-
-    const foundFav = favoriteRedux.find(
-      (fav) => fav.id === characterSelected.id
-    );
-    if (foundFav) {
-      if (favoriteRedux.length === 1) {
-        localStorage.removeItem("fav");
+        arrayPage++;
+        totalLegth--;
+        arrayNumber++;
       }
-      //Redux data
-      dispatch(characterActions.deleteCharacter(characterSelected));
+      arrayTotal[pageTemp] = tempRow;
+      pageTemp++;
     }
-  };
 
-  const checkLocalStore = (favoriteRedux: CharacterModel[]) => {
-    const checkLocalStorage = JSON.parse(localStorage.getItem("fav"));
-    if (favoriteRedux.length === 0) {
-      if (checkLocalStorage) {
-        if (checkLocalStorage.length > 0) {
-          pushToRedux(checkLocalStorage);
-        }
-      }
-    }
-  };
-
-  const pushToRedux = (dataArray: CharacterModel[]) => {
-    dataArray.map((data) => {
-      dispatch(characterActions.addCharacter(data));
-    });
+    setViewPage(arrayTotal);
+    setViewCard(arrayTotal[page]);
   };
 
   return (
     <div className={styles.container}>
       <main className={styles.main}>
         <h1 className={styles.title}>Ricky and Morty App!</h1>
+
+        <ul>
+          <li>
+            <Link href="/characters">
+              <a>Characters</a>
+            </Link>
+          </li>
+          <li>
+            <Link href="/locations">
+              <a>Locations</a>
+            </Link>
+          </li>
+          <li>
+            <Link href="/episodes">
+              <a>Episodes</a>
+            </Link>
+          </li>
+        </ul>
+        <button onClick={() => console.log(viewPage)}>PROBAR</button>
         <button onClick={handleClickDetails}>VER CART</button>
+        <button onClick={() => checkLocalStore(favoriteRedux)}>
+          ACTUALIZAR
+        </button>
         <button onClick={handleClickClean}>LIMPIAR TODO</button>
 
         <div className="flex">
           <button onClick={() => setFav(true)}>FAVORITOS</button>
           <button onClick={() => setFav(false)}>DELETE</button>
         </div>
+        {viewCard ? (
+          <div className={styles.grid}>
+            {viewCard.map((character: any, index: number) => {
+              return (
+                <div key={index}>
+                  <CardComponent
+                    character={character}
+                    handleClickFav={handleClickFav}
+                    handleClickDel={handleClickDel}
+                    handleClickDetails={handleClickDetails}
+                    fav={fav}
+                  />
+                </div>
+              );
+            })}
+          </div>
+        ) : (
+          <div>HOLAAAAAAAAAAAAAA</div>
+        )}
 
-        <InfoBarComponent />
-
-        <div className={styles.grid}>
-          {viewCharacters.map((character: any, index: number) => {
-            return (
-              <div key={index}>
-                <CardComponent
-                  character={character}
-                  handleClickFav={handleClickFav}
-                  handleClickDel={handleClickDel}
-                  handleClickDetails={handleClickDetails}
-                  fav={fav}
-                />
-              </div>
-            );
-          })}
-        </div>
+        {/* <InfoBarComponent /> */}
       </main>
-      <footer className={styles.footer}>
-        <div className={styles.pagination}>
-          <a href="#">&laquo;</a>
-          {viewCharacters.map((element: CharacterModel, index: number) => {
-            return (
-              <a key={index + 1} href="#">
-                {" "}
-                {index + 1}
-              </a>
-            );
-          })}
 
-          <a href="#">&raquo;</a>
-        </div>
-      </footer>
+      {viewPage ? (
+        <footer className={styles.footer}>
+          <ul className="pagination">
+            {viewPage.map((element: CharacterModel, index: number) => {
+              return (
+                <li key={index}>
+                  <a
+                    onClick={() => {
+                      setPage(index);
+                     
+                    }}
+                    className={`${index === page ? "active" : ""}`}
+                  >
+                    {index + 1}
+                  </a>
+                </li>
+              );
+            })}
+          </ul>
+        </footer>
+      ) : (
+        <div>HOLAAAAAAAAAAAAAA</div>
+      )}
     </div>
   );
 }

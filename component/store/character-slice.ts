@@ -11,8 +11,14 @@ const characterSlice = createSlice({
   initialState: initialCharacterState,
   reducers: {
     addCharacter(state, action: PayloadAction<CharacterModel>) {
-      state.all_characters.push(action.payload);
+      const checkRepeat = state.all_characters.find(
+        (fav) => fav.id === action.payload.id
+      );
+      if (!checkRepeat) {
+        state.all_characters.push(action.payload);
+      }
     },
+
     deleteCharacter(state, action: PayloadAction<CharacterModel>) {
       let indexTemp = -1;
 
@@ -24,6 +30,12 @@ const characterSlice = createSlice({
         //clear data from state array
         state.all_characters.splice(indexTemp, 1);
       }
+    },
+
+    addArrayCharacter(state, action: PayloadAction<CharacterModel[]>) {
+      action.payload.map((elementArray) => {
+        state.all_characters.push(elementArray);
+      });
     },
 
     cleanCharacter(state) {
