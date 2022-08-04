@@ -2,16 +2,15 @@ import Head from "next/head";
 import Image from "next/image";
 import styles from "../styles/Home.module.css";
 
-import { CardComponent } from "../component/common/CardComponent";
-import InfoBarComponent from "../component/common/InfoBar";
+import  CardComponent  from "../component/common/CardComponent";
 import { useEffect, useState } from "react";
 
 import { useAppDispatch, useAppSelector } from "../component/hook/redux-hooks";
 import { CharacterModel } from "../component/models/redux.models";
 import Link from "next/link";
 import { ConfigRedux } from "../component/common/handleFavorites";
-import EmptyFavorites from "../component/common/EmptyFavorite";
 import characterSlice from "../component/store/character-slice";
+import { useRouter } from "next/router";
 
 export default function Home() {
   const {
@@ -36,6 +35,9 @@ export default function Home() {
   const [page, setPage] = useState(0);
   const [viewPage, setViewPage] = useState([]);
   const [viewCard, setViewCard] = useState([]);
+
+  const router = useRouter();
+  const [pathName, setPathName] = useState(router.pathname);
 
   useEffect(() => {
     if (favoriteRedux.length > 0) {
@@ -115,6 +117,7 @@ export default function Home() {
               return (
                 <div key={index}>
                   <CardComponent
+                    pathName={pathName}
                     character={character}
                     handleClickFav={handleClickFav}
                     handleClickDel={handleClickDel}
@@ -126,10 +129,8 @@ export default function Home() {
             })}
           </div>
         ) : (
-          <div>HOLAAAAAAAAAAAAAA</div>
+          <div>CART EMPTY</div>
         )}
-
-        {/* <InfoBarComponent /> */}
       </main>
 
       {viewPage ? (
@@ -141,7 +142,6 @@ export default function Home() {
                   <a
                     onClick={() => {
                       setPage(index);
-                     
                     }}
                     className={`${index === page ? "active" : ""}`}
                   >
@@ -153,7 +153,7 @@ export default function Home() {
           </ul>
         </footer>
       ) : (
-        <div>HOLAAAAAAAAAAAAAA</div>
+        <div>FOOTER EMPTY</div>
       )}
     </div>
   );

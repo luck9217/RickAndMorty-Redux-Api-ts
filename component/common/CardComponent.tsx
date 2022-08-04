@@ -1,25 +1,46 @@
 import styles from "../../styles/Home.module.css";
 import buttonSpecial from "../../styles/Button.module.css";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-export const CardComponent = ({
+const CardComponent = ({
   character,
   handleClickFav,
   handleClickDel,
   handleClickDetails,
-  fav
+  fav,
+  pathName,
 }) => {
- 
+  //looking favorites character and create new propietie to filter on DOM
+  let newData = { ...character };
+
+  if (JSON.parse(localStorage.getItem("fav"))) {
+    const found = JSON.parse(localStorage.getItem("fav")).find(
+      (data: any) => data.id === character.id
+    );
+    if (found) {
+      newData.isFav = true;
+    } else {
+      newData.isFav = false;
+    }
+  }
+
   if (!character) {
     return <h4>Loading</h4>;
   }
 
   return (
     <div className={styles.card}>
-      <img src={character.image} style={{ width: "100%" }} />
-      <h2>{character.name}</h2>
-      <p>{character.species}</p>
+      {pathName === "/characters" && newData.isFav ? (
+        <div className={styles.badge}>❤</div>
+      ) : (
+        ""
+      )}
+
+      <img src={newData.image} style={{ width: "100%" }} />
+
+      <h2>{newData.name}</h2>
+      <p>{newData.species}</p>
 
       <div className={buttonSpecial.containerButton}>
         <button className={buttonSpecial.button} onClick={handleClickDetails}>
@@ -31,7 +52,7 @@ export const CardComponent = ({
             className={buttonSpecial.button}
             onClick={() => handleClickFav(character)}
           >
-            ❤
+            ❤ +
           </button>
         ) : (
           <button
@@ -45,3 +66,5 @@ export const CardComponent = ({
     </div>
   );
 };
+
+export default CardComponent;

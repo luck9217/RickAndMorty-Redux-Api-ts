@@ -1,5 +1,6 @@
 import React from 'react'
 import Link from 'next/link'
+import { SearchBarComponent } from '../component/common/SearchBar'
 
 const details = () => {
   return (
@@ -9,6 +10,8 @@ const details = () => {
                 Go to Home
             </a>
         </Link>
+        <SearchBarComponent />
+
     </div>
   )
 }
