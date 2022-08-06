@@ -15,7 +15,7 @@ export const GET_CHARACTERS = (page: number) => {
   `;
 };
 
-export const GET_SEARCHCHARACTERS = (name: string,page: number) => {
+export const GET_SEARCHCHARACTERS = (name: string, page: number) => {
   return gql`
     query {
       characters (
@@ -33,4 +33,21 @@ export const GET_SEARCHCHARACTERS = (name: string,page: number) => {
       }
     }
   `;
+};
+
+export const GET_IDCHARACTERS = (id: number) => {
+  return gql`
+  query {
+    character(id:${id} ) {
+      id
+      name
+      image
+      status
+      species
+      type
+      gender
+      created
+    }
+  }
+`;
 };

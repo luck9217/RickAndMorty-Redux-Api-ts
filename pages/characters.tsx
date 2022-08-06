@@ -7,21 +7,13 @@ import { useSelector, useDispatch } from "react-redux";
 import { ConfigRedux } from "../component/common/handleFavorites";
 import styles from "../styles/Home.module.css";
 const CardComponent = lazy(() => import("../component/common/CardComponent"));
-import {
-  GET_CHARACTERS,
-  GET_SEARCHCHARACTERS,
-} from "../component/apollo/queries/characters";
+import { GET_SEARCHCHARACTERS } from "../component/apollo/queries/characters";
 import { useQuery, useLazyQuery } from "@apollo/client";
 import { useRouter } from "next/router";
 import { SearchBarComponent } from "../component/common/SearchBar";
 
 const Characters = () => {
-  const {
-    handleClickDetails,
-    handleClickClean,
-    handleClickFav,
-    handleClickDel,
-  } = ConfigRedux();
+  const { handleClickDetails, handleClickFav, handleClickDel } = ConfigRedux();
   //Return redux state
   const router = useRouter();
   const [pathName, setPathName] = useState(router.pathname);
@@ -60,7 +52,6 @@ const Characters = () => {
         tempCounter.push(i);
       }
       setAllPage(tempCounter);
-      
     }
   };
 
@@ -91,14 +82,6 @@ const Characters = () => {
               </Link>
             </li>
           </ul>
-
-          <button onClick={handleClickDetails}>VER CART</button>
-          <button onClick={handleClickClean}>LIMPIAR TODO</button>
-
-          <div className="flex">
-            <button onClick={() => setFav(true)}>FAVORITOS</button>
-            <button onClick={() => setFav(false)}>DELETE</button>
-          </div>
 
           <SearchBarComponent
             setPage={setPage}

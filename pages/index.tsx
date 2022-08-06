@@ -2,7 +2,7 @@ import Head from "next/head";
 import Image from "next/image";
 import styles from "../styles/Home.module.css";
 
-import  CardComponent  from "../component/common/CardComponent";
+import CardComponent from "../component/common/CardComponent";
 import { useEffect, useState } from "react";
 
 import { useAppDispatch, useAppSelector } from "../component/hook/redux-hooks";
@@ -15,7 +15,6 @@ import { useRouter } from "next/router";
 export default function Home() {
   const {
     handleClickDetails,
-    handleClickClean,
     handleClickFav,
     handleClickDel,
     checkLocalStore,
@@ -49,7 +48,6 @@ export default function Home() {
 
   useEffect(() => {
     listPages(viewCharacters);
-    console.log(viewPage);
   }, [viewCharacters, page]);
 
   const listPages = (viewCharacters: CharacterModel[]) => {
@@ -101,16 +99,10 @@ export default function Home() {
           </li>
         </ul>
         <button onClick={() => console.log(viewPage)}>PROBAR</button>
-        <button onClick={handleClickDetails}>VER CART</button>
         <button onClick={() => checkLocalStore(favoriteRedux)}>
           ACTUALIZAR
         </button>
-        <button onClick={handleClickClean}>LIMPIAR TODO</button>
 
-        <div className="flex">
-          <button onClick={() => setFav(true)}>FAVORITOS</button>
-          <button onClick={() => setFav(false)}>DELETE</button>
-        </div>
         {viewCard ? (
           <div className={styles.grid}>
             {viewCard.map((character: any, index: number) => {

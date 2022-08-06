@@ -2,6 +2,7 @@ import styles from "../../styles/Home.module.css";
 import buttonSpecial from "../../styles/Button.module.css";
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import Link from "next/link";
 
 const CardComponent = ({
   character,
@@ -43,11 +44,13 @@ const CardComponent = ({
       <p>{newData.species}</p>
 
       <div className={buttonSpecial.containerButton}>
-        <button className={buttonSpecial.button} onClick={handleClickDetails}>
-          Details
-        </button>
+        <Link href={`/characters/details/${newData.id}`}>
+          <button className={buttonSpecial.button} onClick={handleClickDetails}>
+            Details
+          </button>
+        </Link>
 
-        {fav ? (
+        {pathName != "/" && !newData.isFav ? (
           <button
             className={buttonSpecial.button}
             onClick={() => handleClickFav(character)}
