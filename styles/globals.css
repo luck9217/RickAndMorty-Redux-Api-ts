@@ -11,7 +11,13 @@ ul.pagination {
   margin: 0;
 }
 
-ul.pagination li {display: inline;}
+.container {
+  position: relative;
+}
+
+ul.pagination li {
+  display: inline;
+}
 
 ul.pagination li a {
   color: black;
@@ -21,11 +27,11 @@ ul.pagination li a {
   cursor: pointer;
 }
 
-.active{
+.active {
   font-weight: bold;
   background-color: #616fbe;
   border-radius: 25px;
-  color: white!important;
+  color: white !important;
 }
 
 a {

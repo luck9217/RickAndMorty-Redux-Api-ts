@@ -10,10 +10,7 @@ export const ConfigRedux = () => {
 
   const dispatch = useAppDispatch();
 
-  const handleClickDetails = () => {
-    console.log("CART Redux", favoriteRedux);
-    console.log("CART localstore", JSON.parse(localStorage.getItem("fav")));
-  };
+
 
   const handleClickClean = () => {
     localStorage.removeItem("fav");
@@ -62,7 +59,7 @@ export const ConfigRedux = () => {
   };
 
   return {
-    handleClickDetails,
+   
     handleClickClean,
     handleClickFav,
     handleClickDel,

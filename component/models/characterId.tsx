@@ -6,5 +6,5 @@ export interface CharacterIdModel {
   name: string;
   species: string;
   status: string;
-  type:string
+ 
 }

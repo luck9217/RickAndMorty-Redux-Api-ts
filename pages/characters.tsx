@@ -11,9 +11,10 @@ import { GET_SEARCHCHARACTERS } from "../component/apollo/queries/characters";
 import { useQuery, useLazyQuery } from "@apollo/client";
 import { useRouter } from "next/router";
 import { SearchBarComponent } from "../component/common/SearchBar";
+import { SideBarComponent } from "../component/common/SideBar";
 
 const Characters = () => {
-  const { handleClickDetails, handleClickFav, handleClickDel } = ConfigRedux();
+  const { handleClickFav, handleClickDel } = ConfigRedux();
   //Return redux state
   const router = useRouter();
   const [pathName, setPathName] = useState(router.pathname);
@@ -56,38 +57,14 @@ const Characters = () => {
   };
 
   return (
-    <div className={styles.container}>
-      characters
-      <Link href="/">
-        <a>Go to Home</a>
-      </Link>
+    <div>
+      <SideBarComponent />
+
       <div className={styles.container}>
         <main className={styles.main}>
           <h1 className={styles.title}>Characters</h1>
 
-          <ul>
-            <li>
-              <Link href="/characters">
-                <a>Characters</a>
-              </Link>
-            </li>
-            <li>
-              <Link href="/locations">
-                <a>Locations</a>
-              </Link>
-            </li>
-            <li>
-              <Link href="/episodes">
-                <a>Episodes</a>
-              </Link>
-            </li>
-          </ul>
-
-          <SearchBarComponent
-            setPage={setPage}
-            setDataSearch={setDataSearch}
-            // handleChangeSearch={(event) => handleChangeSearch(event)}
-          />
+          <SearchBarComponent setPage={setPage} setDataSearch={setDataSearch} />
 
           {viewCharacters ? (
             <div className={styles.grid}>
@@ -99,8 +76,6 @@ const Characters = () => {
                       character={character}
                       handleClickFav={handleClickFav}
                       handleClickDel={handleClickDel}
-                      handleClickDetails={handleClickDetails}
-                      fav={fav}
                     />
                   </Suspense>
                 );

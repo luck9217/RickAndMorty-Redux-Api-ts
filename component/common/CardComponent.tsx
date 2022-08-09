@@ -8,8 +8,6 @@ const CardComponent = ({
   character,
   handleClickFav,
   handleClickDel,
-  handleClickDetails,
-  fav,
   pathName,
 }) => {
   //looking favorites character and create new propietie to filter on DOM
@@ -45,9 +43,7 @@ const CardComponent = ({
 
       <div className={buttonSpecial.containerButton}>
         <Link href={`/characters/details/${newData.id}`}>
-          <button className={buttonSpecial.button} onClick={handleClickDetails}>
-            Details
-          </button>
+          <button className={buttonSpecial.button}>Details</button>
         </Link>
 
         {pathName != "/" && !newData.isFav ? (

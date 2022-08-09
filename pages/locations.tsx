@@ -1,16 +1,14 @@
-import React from 'react'
-import Link from 'next/link'
+import React from "react";
+import Link from "next/link";
+import { SideBarComponent } from "../component/common/SideBar";
 
 const episodes = () => {
   return (
-    <div>episodes
-        <Link href="/">
-            <a>
-                Go to Home
-            </a>
-        </Link>
+    <div>
+      <SideBarComponent />
+      <div></div>
     </div>
-  )
-}
+  );
+};
 
-export default episodes
+export default episodes;

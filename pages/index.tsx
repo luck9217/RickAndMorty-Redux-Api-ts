@@ -11,14 +11,10 @@ import Link from "next/link";
 import { ConfigRedux } from "../component/common/handleFavorites";
 import characterSlice from "../component/store/character-slice";
 import { useRouter } from "next/router";
+import { SideBarComponent } from "../component/common/SideBar";
 
 export default function Home() {
-  const {
-    handleClickDetails,
-    handleClickFav,
-    handleClickDel,
-    checkLocalStore,
-  } = ConfigRedux();
+  const { handleClickFav, handleClickDel, checkLocalStore } = ConfigRedux();
 
   const characterActions = characterSlice.actions;
 
@@ -29,7 +25,6 @@ export default function Home() {
     (state) => state.character.all_characters
   );
 
-  const [fav, setFav] = useState(true);
   const [viewCharacters, setViewCharacters] = useState(favoriteRedux);
   const [page, setPage] = useState(0);
   const [viewPage, setViewPage] = useState([]);
@@ -77,76 +72,61 @@ export default function Home() {
   };
 
   return (
-    <div className={styles.container}>
-      <main className={styles.main}>
-        <h1 className={styles.title}>Ricky and Morty App!</h1>
+    <div className="container">
+      <SideBarComponent />
 
-        <ul>
-          <li>
-            <Link href="/characters">
-              <a>Characters</a>
-            </Link>
-          </li>
-          <li>
-            <Link href="/locations">
-              <a>Locations</a>
-            </Link>
-          </li>
-          <li>
-            <Link href="/episodes">
-              <a>Episodes</a>
-            </Link>
-          </li>
-        </ul>
-        <button onClick={() => console.log(viewPage)}>PROBAR</button>
-        <button onClick={() => checkLocalStore(favoriteRedux)}>
-          ACTUALIZAR
-        </button>
+      <div className={styles.container}>
+        <main className={styles.main}>
+          <h1 className={styles.title}>Ricky and Morty App!</h1>
 
-        {viewCard ? (
-          <div className={styles.grid}>
-            {viewCard.map((character: any, index: number) => {
-              return (
-                <div key={index}>
-                  <CardComponent
-                    pathName={pathName}
-                    character={character}
-                    handleClickFav={handleClickFav}
-                    handleClickDel={handleClickDel}
-                    handleClickDetails={handleClickDetails}
-                    fav={fav}
-                  />
-                </div>
-              );
-            })}
-          </div>
+          <button onClick={() => console.log(viewPage)}>PROBAR</button>
+          <button onClick={() => checkLocalStore(favoriteRedux)}>
+            ACTUALIZAR
+          </button>
+
+          {viewCard ? (
+            <div className={styles.grid}>
+              {viewCard.map((character: any, index: number) => {
+                return (
+                  <div key={index}>
+                    <CardComponent
+                      pathName={pathName}
+                      character={character}
+                      handleClickFav={handleClickFav}
+                      handleClickDel={handleClickDel}
+                    />
+                  </div>
+                );
+              })}
+            </div>
+          ) : (
+            <div>CART EMPTY</div>
+          )}
+        </main>
+
+        {viewPage ? (
+          <footer className={styles.footer}>
+            <ul className="pagination">
+              {viewPage.map((element: CharacterModel, index: number) => {
+                return (
+                  <li key={index}>
+                    <a
+                      onClick={() => {
+                        setPage(index);
+                      }}
+                      className={`${index === page ? "active" : ""}`}
+                    >
+                      {index + 1}
+                    </a>
+                  </li>
+                );
+              })}
+            </ul>
+          </footer>
         ) : (
-          <div>CART EMPTY</div>
+          <div>FOOTER EMPTY</div>
         )}
-      </main>
-
-      {viewPage ? (
-        <footer className={styles.footer}>
-          <ul className="pagination">
-            {viewPage.map((element: CharacterModel, index: number) => {
-              return (
-                <li key={index}>
-                  <a
-                    onClick={() => {
-                      setPage(index);
-                    }}
-                    className={`${index === page ? "active" : ""}`}
-                  >
-                    {index + 1}
-                  </a>
-                </li>
-              );
-            })}
-          </ul>
-        </footer>
-      ) : (
-        <div>FOOTER EMPTY</div>
-      )}
+      </div>
     </div>
   );
 }
