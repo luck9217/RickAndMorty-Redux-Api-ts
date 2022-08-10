@@ -1,13 +1,11 @@
 import Head from "next/head";
 import Image from "next/image";
 import styles from "../styles/Home.module.css";
-
+import buttonSpecial from "../styles/Button.module.css";
 import CardComponent from "../component/common/CardComponent";
 import { useEffect, useState } from "react";
-
 import { useAppDispatch, useAppSelector } from "../component/hook/redux-hooks";
 import { CharacterModel } from "../component/models/redux.models";
-import Link from "next/link";
 import { ConfigRedux } from "../component/common/handleFavorites";
 import characterSlice from "../component/store/character-slice";
 import { useRouter } from "next/router";
@@ -79,9 +77,11 @@ export default function Home() {
         <main className={styles.main}>
           <h1 className={styles.title}>Ricky and Morty App!</h1>
 
-          <button onClick={() => console.log(viewPage)}>PROBAR</button>
-          <button onClick={() => checkLocalStore(favoriteRedux)}>
-            ACTUALIZAR
+          <button
+            className={buttonSpecial.button}
+            onClick={() => checkLocalStore(favoriteRedux)}
+          >
+            REFRESH
           </button>
 
           {viewCard ? (

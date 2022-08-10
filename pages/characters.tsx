@@ -1,14 +1,11 @@
 import React, { lazy, Suspense, useEffect, useState } from "react";
-import Link from "next/link";
-import characterSlice from "../component/store/character-slice";
-import { useAppDispatch, useAppSelector } from "../component/hook/redux-hooks";
+import { useAppSelector } from "../component/hook/redux-hooks";
 import { CharacterModel } from "../component/models/redux.models";
-import { useSelector, useDispatch } from "react-redux";
 import { ConfigRedux } from "../component/common/handleFavorites";
 import styles from "../styles/Home.module.css";
 const CardComponent = lazy(() => import("../component/common/CardComponent"));
 import { GET_SEARCHCHARACTERS } from "../component/apollo/queries/characters";
-import { useQuery, useLazyQuery } from "@apollo/client";
+import { useLazyQuery } from "@apollo/client";
 import { useRouter } from "next/router";
 import { SearchBarComponent } from "../component/common/SearchBar";
 import { SideBarComponent } from "../component/common/SideBar";
