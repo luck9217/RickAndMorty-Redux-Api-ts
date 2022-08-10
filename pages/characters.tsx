@@ -9,6 +9,7 @@ import { useLazyQuery } from "@apollo/client";
 import { useRouter } from "next/router";
 import { SearchBarComponent } from "../component/common/SearchBar";
 import { SideBarComponent } from "../component/common/SideBar";
+import LoadingComponent from "../component/common/LoadingComponent";
 
 const Characters = () => {
   const { handleClickFav, handleClickDel } = ConfigRedux();
@@ -67,7 +68,7 @@ const Characters = () => {
             <div className={styles.grid}>
               {viewCharacters.map((character: any, index: number) => {
                 return (
-                  <Suspense fallback={<div>Loading...</div>} key={index}>
+                  <Suspense fallback={<LoadingComponent/>} key={index}>
                     <CardComponent
                       pathName={pathName}
                       character={character}

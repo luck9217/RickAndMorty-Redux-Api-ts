@@ -8,6 +8,7 @@ import Image from "next/image";
 import { useQuery } from "@apollo/client";
 import buttonSpecial from "../../../styles/Button.module.css";
 import { SideBarComponent } from "../../../component/common/SideBar";
+import LoadingComponent from "../../../component/common/LoadingComponent";
 
 const DetailsCard = () => {
   const router = useRouter();
@@ -67,7 +68,7 @@ const DetailsCard = () => {
               </div>
             </div>
           ) : (
-            <div className={styles.card}>loading...</div>
+            <LoadingComponent />
           )}
         </main>
       </div>

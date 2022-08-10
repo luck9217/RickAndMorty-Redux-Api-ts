@@ -8,6 +8,7 @@ import { useRouter } from "next/router";
 import { SearchBarComponent } from "../component/common/SearchBar";
 import { SideBarComponent } from "../component/common/SideBar";
 import { GET_SEARCHLOCATIONS } from "../component/apollo/queries/locations";
+import LoadingComponent from "../component/common/LoadingComponent";
 
 const Locations = () => {
   //Return redux state
@@ -56,7 +57,7 @@ const Locations = () => {
             <div className={styles.grid}>
               {viewLocations.map((location: any, index: number) => {
                 return (
-                  <Suspense fallback={<div>Loading...</div>} key={index}>
+                  <Suspense fallback={<LoadingComponent />} key={index}>
                     <CardLocation location={location} />
                   </Suspense>
                 );

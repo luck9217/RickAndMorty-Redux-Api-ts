@@ -28,7 +28,7 @@ export const SideBarComponent = () => {
       break;
 
     default:
-      console.log("pathName");
+      console.log(pathName);
   }
 
   return (

@@ -10,6 +10,7 @@ import { ConfigRedux } from "../component/common/handleFavorites";
 import characterSlice from "../component/store/character-slice";
 import { useRouter } from "next/router";
 import { SideBarComponent } from "../component/common/SideBar";
+import CardEmpty from "../component/common/CardEmpty";
 
 export default function Home() {
   const { handleClickFav, handleClickDel, checkLocalStore } = ConfigRedux();
@@ -100,7 +101,7 @@ export default function Home() {
               })}
             </div>
           ) : (
-            <div>CART EMPTY</div>
+            <CardEmpty />
           )}
         </main>
 

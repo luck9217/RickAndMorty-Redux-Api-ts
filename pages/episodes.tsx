@@ -8,6 +8,7 @@ import { useRouter } from "next/router";
 import { SearchBarComponent } from "../component/common/SearchBar";
 import { SideBarComponent } from "../component/common/SideBar";
 import { GET_SEARCHEPISODES } from "../component/apollo/queries/episodes";
+import LoadingComponent from "../component/common/LoadingComponent";
 
 const Episodes = () => {
   //Return redux state
@@ -56,7 +57,7 @@ const Episodes = () => {
             <div className={styles.grid}>
               {viewEpisodes.map((episode: any, index: number) => {
                 return (
-                  <Suspense fallback={<div>Loading...</div>} key={index}>
+                  <Suspense fallback={<LoadingComponent/>} key={index}>
                     <CardEpisode episode={episode} />
                   </Suspense>
                 );
