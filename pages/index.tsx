@@ -9,6 +9,7 @@ import characterSlice from "../component/store/character-slice";
 import { useRouter } from "next/router";
 import { SideBarComponent } from "../component/common/SideBar";
 import CardEmpty from "../component/common/CardEmpty";
+import { ButtonTwo } from "../component/styled/Button";
 
 export default function Home() {
   const { handleClickFav, handleClickDel, checkLocalStore } = ConfigRedux();
@@ -75,6 +76,7 @@ export default function Home() {
       <div className={styles.container}>
         <main className={styles.main}>
           <h1 className={styles.title}>Ricky and Morty App!</h1>
+          
 
           <button
             className={buttonSpecial.button}
