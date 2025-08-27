@@ -1,0 +1,55 @@
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: center; /* Center title on desktop */
+  padding: 1rem 1.5rem;
+  background-color: #ffffff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  width: 100%;
+  margin-left: 220px;
+  max-width: 1200px;
+  margin-right: auto;
+  padding-left: 2rem;
+}
+
+.title {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #1a202c;
+  text-align: left;
+}
+
+.hamburger {
+  display: none; /* Hidden on desktop */
+  position: absolute;
+  left: 1rem;
+  font-weight: bold;
+  color: #1a202c;
+  border: none;
+  background: transparent;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+@media (max-width: 700px) {
+  .hamburger {
+    display: block; /* Visible on mobile */
+  }
+
+  .header {
+    padding: 0.75rem 1rem;
+    margin-left: 0;
+    width: 100%;
+    max-width: none;
+    justify-content: flex-end; /* Push title to the right on mobile */
+  }
+
+  .title {
+    font-size: 1.25rem;
+    text-align: right; /* Right-align title text on mobile */
+  }
+}

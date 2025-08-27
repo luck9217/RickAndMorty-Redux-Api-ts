@@ -10,6 +10,7 @@ import { useRouter } from "next/router";
 import { SearchBarComponent } from "../component/common/SearchBar";
 import { SideBarComponent } from "../component/common/SideBar";
 import LoadingComponent from "../component/common/LoadingComponent";
+import { Header } from "../component/common/Header";
 
 const Characters = () => {
   const { handleClickFav, handleClickDel } = ConfigRedux();
@@ -57,18 +58,16 @@ const Characters = () => {
   return (
     <div>
       <SideBarComponent />
-
+      <Header title="Characters" />
       <div className={styles.container}>
         <main className={styles.main}>
-          <h1 className={styles.title}>Characters</h1>
-
           <SearchBarComponent setPage={setPage} setDataSearch={setDataSearch} />
 
           {viewCharacters ? (
             <div className={styles.grid}>
               {viewCharacters.map((character: any, index: number) => {
                 return (
-                  <Suspense fallback={<LoadingComponent/>} key={index}>
+                  <Suspense fallback={<LoadingComponent />} key={index}>
                     <CardComponent
                       pathName={pathName}
                       character={character}

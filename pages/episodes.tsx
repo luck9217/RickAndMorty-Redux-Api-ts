@@ -7,6 +7,7 @@ import { useLazyQuery } from "@apollo/client";
 import { useRouter } from "next/router";
 import { SearchBarComponent } from "../component/common/SearchBar";
 import { SideBarComponent } from "../component/common/SideBar";
+import { Header } from "../component/common/Header";
 import { GET_SEARCHEPISODES } from "../component/apollo/queries/episodes";
 import LoadingComponent from "../component/common/LoadingComponent";
 
@@ -46,18 +47,16 @@ const Episodes = () => {
   return (
     <div>
       <SideBarComponent />
-
+      <Header title="Episodes" />
       <div className={styles.container}>
         <main className={styles.main}>
-          <h1 className={styles.title}>Episodes</h1>
-
           <SearchBarComponent setPage={setPage} setDataSearch={setDataSearch} />
 
           {viewEpisodes ? (
             <div className={styles.grid}>
               {viewEpisodes.map((episode: any, index: number) => {
                 return (
-                  <Suspense fallback={<LoadingComponent/>} key={index}>
+                  <Suspense fallback={<LoadingComponent />} key={index}>
                     <CardEpisode episode={episode} />
                   </Suspense>
                 );

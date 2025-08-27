@@ -10,6 +10,7 @@ import { useRouter } from "next/router";
 import { SideBarComponent } from "../component/common/SideBar";
 import CardEmpty from "../component/common/CardEmpty";
 import { ButtonTwo } from "../component/styled/Button";
+import { Header } from "../component/common/Header";
 
 export default function Home() {
   const { handleClickFav, handleClickDel, checkLocalStore } = ConfigRedux();
@@ -44,21 +45,21 @@ export default function Home() {
   }, [viewCharacters, page]);
 
   const listPages = (viewCharacters: CharacterModel[]) => {
-    let congifAmount = 10;
-    let totalLegth = viewCharacters.length;
+    let configAmount = 10;
+    let totalLength = viewCharacters.length;
     let arrayTotal = [];
     let pageTemp = 0;
     let arrayNumber = 0;
 
-    while (totalLegth > 0) {
+    while (totalLength > 0) {
       let arrayPage = 0;
       let tempRow = [];
 
-      while (arrayPage < congifAmount && totalLegth > 0) {
+      while (arrayPage < configAmount && totalLength > 0) {
         tempRow[arrayPage] = viewCharacters[arrayNumber];
 
         arrayPage++;
-        totalLegth--;
+        totalLength--;
         arrayNumber++;
       }
       arrayTotal[pageTemp] = tempRow;
@@ -72,12 +73,9 @@ export default function Home() {
   return (
     <div className="container">
       <SideBarComponent />
-
+      <Header title="Home" />
       <div className={styles.container}>
         <main className={styles.main}>
-          <h1 className={styles.title}>Ricky and Morty App!</h1>
-          
-
           <button
             className={buttonSpecial.button}
             onClick={() => checkLocalStore(favoriteRedux)}
@@ -127,6 +125,10 @@ export default function Home() {
         ) : (
           <div>FOOTER EMPTY</div>
         )}
+
+        <div className={styles.copyright}>
+          <p>© 2025 Rick and Morty App - Created by Lucas Chavez</p>
+        </div>
       </div>
     </div>
   );

@@ -1,34 +1,109 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+<h1 align="center">Rick and Morty Search App</h1>
+
+Discover characters, locations, and episodes from the Rick and Morty universe using the public GraphQL API. Built with Next.js, React, Redux Toolkit, and Apollo Client.
+
+- Live site: https://lucas-chavez-rickandmorty-app.vercel.app/
+
+## Features
+
+- Browse and search characters, locations, and episodes
+- Client‑side search (min 3 chars) with GraphQL filters and pagination
+- Favorites management persisted in localStorage via Redux Toolkit
+- Detail pages for characters, locations, and episodes
+- Responsive UI with a collapsible sidebar and mobile hamburger menu
+- Deployed to Vercel
+
+## Tech Stack
+
+- Next.js 12 + React 18 + TypeScript
+- Apollo Client 3 (GraphQL)
+- Redux Toolkit + React Redux
+- CSS Modules and styled-components
+- Rick and Morty GraphQL API: https://rickandmortyapi.com/graphql
 
 ## Getting Started
 
-First, run the development server:
+Prerequisites
+
+- Node.js >= 16 and npm >= 8
+
+Install dependencies
+
+```bash
+npm install
+```
+
+Run the dev server
 
 ```bash
 npm run dev
-# or
-yarn dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Then open http://localhost:3000
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+Build for production
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+```bash
+npm run build
+```
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+Start the production server
 
-## Learn More
+```bash
+npm run start
+```
 
-To learn more about Next.js, take a look at the following resources:
+Lint
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+npm run lint
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+Note: A custom export script is not configured. Prefer Vercel for deployment.
 
-## Deploy on Vercel
+## Project Structure
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```
+component/
+	apollo/           # Apollo client and GraphQL queries
+	common/           # Reusable UI (Header, SideBar, Cards, SearchBar, Loading)
+	hook/             # Redux typed hooks
+	models/           # TS models/interfaces
+	store/            # Redux Toolkit store and slice
+	styled/           # Styled-components helpers
+pages/              # Next.js pages (home, characters, locations, episodes)
+public/             # Static assets
+styles/             # CSS Modules and global styles
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Key files
+
+- `component/apollo/client.ts` – Apollo Client pointing to the Rick and Morty GraphQL endpoint
+- `component/apollo/queries/*` – GraphQL queries for characters, locations, episodes
+- `component/store/*` – Redux store and character slice (favorites)
+- `pages/index.tsx` – Home showing favorites with pagination and Refresh
+- `pages/characters.tsx` / `pages/locations.tsx` / `pages/episodes.tsx` – Searchable lists
+
+## Usage Notes
+
+- Searching: Start typing (3+ characters) to filter results by name
+- Favorites: Use the card actions to add/remove favorites; persisted in localStorage
+- Mobile: Use the hamburger button to toggle the sidebar
+
+## Deployment
+
+The project is designed for Vercel. Typical flow:
+
+1. Push to a Git repo (e.g., GitHub)
+2. Import the repo in Vercel and deploy with defaults
+
+Live demo: https://lucas-chavez-rickandmorty-app.vercel.app/
+
+## Acknowledgements
+
+- Data: Rick and Morty API (GraphQL) – https://rickandmortyapi.com/
+- Framework: Next.js – https://nextjs.org/
+
+## License
+
+No license specified. If you plan to use or modify this project publicly, consider adding a license.
