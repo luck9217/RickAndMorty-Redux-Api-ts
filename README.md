@@ -21,6 +21,10 @@ Discover characters, locations, and episodes from the Rick and Morty universe us
 - CSS Modules and styled-components
 - Rick and Morty GraphQL API: https://rickandmortyapi.com/graphql
 
+## Requirements
+
+- Node.js 20.x (set in package.json engines and .nvmrc)
+
 ## Getting Started
 
 Prerequisites
