@@ -1,46 +1,30 @@
 .button {
-  padding: 5px 5px;
-  margin: 30py;
-  border: unset;
-  border-radius: 15px;
-  color: #212121;
-  z-index: 1;
-  background: #e8e8e8;
+  padding: 10px 28px;
+  margin: 0 8px 16px 8px;
+  border: none;
+  border-radius: 12px;
+  color: #fff;
+  background: linear-gradient(90deg, #0070f3 0%, #83e7f4 100%);
+  font-weight: 700;
+  font-size: 1rem;
+  box-shadow: 0 2px 8px rgba(0, 112, 243, 0.1);
+  transition: background 0.2s, color 0.2s, transform 0.2s;
+  cursor: pointer;
   position: relative;
-  font-weight: 1000;
-  font-size: 17px;
-  -webkit-box-shadow: 4px 8px 19px -3px rgba(0, 0, 0, 0.27);
-  box-shadow: 4px 8px 19px -3px rgba(0, 0, 0, 0.27);
-  transition: all 250ms;
   overflow: hidden;
 }
 
-.button::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 0;
-  border-radius: 15px;
-  background-color: #212121;
-  z-index: -1;
-  -webkit-box-shadow: 4px 8px 19px -3px rgba(0, 0, 0, 0.27);
-  box-shadow: 4px 8px 19px -3px rgba(0, 0, 0, 0.27);
-  transition: all 250ms;
-}
-
-.button:hover {
-  color: #e8e8e8;
-  cursor:pointer;
-}
-
-.button:hover::before {
-  width: 100%;
+.button:hover,
+.button:focus {
+  background: linear-gradient(90deg, #005bb5 0%, #0070f3 100%);
+  color: #fff;
+  transform: translateY(-2px) scale(1.04);
 }
 
 .containerButton {
   display: flex;
-  justify-content: space-between ;
-  margin-top:20px
+  justify-content: center;
+  gap: 12px;
+  margin-top: 20px;
+  flex-wrap: wrap;
 }

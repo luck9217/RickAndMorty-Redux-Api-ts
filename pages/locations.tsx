@@ -7,6 +7,7 @@ import { useLazyQuery } from "@apollo/client";
 import { useRouter } from "next/router";
 import { SearchBarComponent } from "../component/common/SearchBar";
 import { SideBarComponent } from "../component/common/SideBar";
+import { Header } from "../component/common/Header";
 import { GET_SEARCHLOCATIONS } from "../component/apollo/queries/locations";
 import LoadingComponent from "../component/common/LoadingComponent";
 
@@ -46,11 +47,9 @@ const Locations = () => {
   return (
     <div>
       <SideBarComponent />
-
+      <Header title="Locations" />
       <div className={styles.container}>
         <main className={styles.main}>
-          <h1 className={styles.title}>Locations</h1>
-
           <SearchBarComponent setPage={setPage} setDataSearch={setDataSearch} />
 
           {viewLocations ? (
